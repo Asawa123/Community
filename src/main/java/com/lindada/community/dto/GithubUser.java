@@ -3,7 +3,7 @@ package com.lindada.community.dto;
 import lombok.Data;
 
 @Data
-public class githubUser {
+public class GithubUser {
     private String name;
     private Long id;
     private String bio;

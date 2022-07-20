@@ -1,10 +1,9 @@
 package com.lindada.community.controller;
 
-import com.lindada.community.dto.accessTokenDTO;
-import com.lindada.community.dto.githubUser;
-import com.lindada.community.mapper.UserMapper;
+import com.lindada.community.dto.AccessTokenDTO;
+import com.lindada.community.dto.GithubUser;
 import com.lindada.community.model.User;
-import com.lindada.community.provider.githubProvider;
+import com.lindada.community.provider.GithubProvider;
 import com.lindada.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
-public class authorizeController {
+public class AuthorizeController {
     @Autowired
-    private githubProvider githubProvider;
+    private GithubProvider githubProvider;
     @Value("${github.client.id}")
     private String clientId;
     @Value("${github.client.secret}")
@@ -35,14 +34,14 @@ public class authorizeController {
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request,
                            HttpServletResponse response){
-        accessTokenDTO accessTokenDTO = new accessTokenDTO();
+        AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_url(redirectUrl);
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        githubUser githubUser = githubProvider.getUser(accessToken);
+        GithubUser githubUser = githubProvider.getUser(accessToken);
         if(githubUser != null && githubUser.getId() != null){
             //登陆成功，写cookie 和 session
             User user = new User();

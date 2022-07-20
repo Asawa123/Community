@@ -1,8 +1,10 @@
 package com.lindada.community.controller;
 
+import com.lindada.community.dto.NotificationDTO;
 import com.lindada.community.dto.PaginationDTO;
 import com.lindada.community.mapper.UserMapper;
 import com.lindada.community.model.User;
+import com.lindada.community.service.NotificationService;
 import com.lindada.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class ProfileController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @GetMapping("/profile/{action}")
     public String profile(HttpServletRequest request,
                           @PathVariable(name = "action") String action,
@@ -30,14 +35,18 @@ public class ProfileController {
             return "redirect:/";
         }
         if("questions".equals(action)){
+            PaginationDTO paginationDTO = questionService.list(user.getId(),size,page);
             model.addAttribute("section","questions");
             model.addAttribute("sectionName","我的提问");
+            model.addAttribute("pagination",paginationDTO);
         }else if("replies".equals(action)){
+            PaginationDTO paginationDTO = notificationService.list(user.getId(),page,size);
+            Long unreadCount = notificationService.unreadCount(user.getId());
             model.addAttribute("section","replies");
+            model.addAttribute("pagination",paginationDTO);
+            model.addAttribute("unreadCount",unreadCount);
             model.addAttribute("sectionName","最新回复");
         }
-        PaginationDTO paginationDTO = questionService.list(user.getId(),size,page);
-        model.addAttribute("pagination",paginationDTO);
         return "profile";
     }
 }
