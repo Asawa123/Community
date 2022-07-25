@@ -2,6 +2,7 @@ package com.lindada.community.service;
 
 import com.lindada.community.dto.PaginationDTO;
 import com.lindada.community.dto.QuestionDTO;
+import com.lindada.community.dto.QuestionQueryDTO;
 import com.lindada.community.exception.CustomizeErrorCode;
 import com.lindada.community.exception.CustomizeException;
 import com.lindada.community.mapper.QuestionExtMapper;
@@ -31,10 +32,17 @@ public class QuestionService {
     private QuestionExtMapper questionExtMapper;
 
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search,Integer page, Integer size) {
+        if(StringUtils.isNotBlank(search)){
+            String[] tags = StringUtils.split(search," ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         if(totalCount%size==0){
             totalPage = totalCount/size;
         }else{
@@ -50,7 +58,9 @@ public class QuestionService {
         Integer offset = size * (page-1);
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample,new RowBounds(offset,size));
+        questionQueryDTO.setPage(offset);
+        questionQueryDTO.setSize(size);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for(Question question:questions){
@@ -157,7 +167,7 @@ public class QuestionService {
         if(StringUtils.isBlank(queryDTO.getTag())){
             return new ArrayList<>();
         }
-        String[] tags = StringUtils.split(",");
+        String[] tags = StringUtils.split(queryDTO.getTag(),",");
         String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
         Question question = new Question();
         question.setTag(regexpTag);

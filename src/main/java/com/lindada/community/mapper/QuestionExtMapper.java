@@ -1,6 +1,7 @@
 package com.lindada.community.mapper;
 
 
+import com.lindada.community.dto.QuestionQueryDTO;
 import com.lindada.community.model.Comment;
 import com.lindada.community.model.Question;
 
@@ -10,10 +11,11 @@ public interface QuestionExtMapper {
     int incView(Question record);
     int incCommentCount(Question question);
     List<Question> selectRelated(Question question);
-//
-//    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
-//
-//    List<Question> selectBySearch(QuestionQueryDTO questionQueryDTO);
+
+    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
+
+    List<Question> selectBySearch(QuestionQueryDTO questionQueryDTO);
+
 //
 //    List<Question> selectSticky();
 }
