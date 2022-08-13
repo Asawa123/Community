@@ -13,6 +13,7 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
+
     public void createOrUpdate(User user) {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
@@ -35,4 +36,5 @@ public class UserService {
             userMapper.updateByExampleSelective(updateUser,example);
         }
     }
+
 }
