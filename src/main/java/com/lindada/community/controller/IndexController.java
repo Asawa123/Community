@@ -1,6 +1,6 @@
 package com.lindada.community.controller;
 
-import com.lindada.community.Cache.HotTagCache;
+import com.lindada.community.cache.HotTagCache;
 import com.lindada.community.dto.PaginationDTO;
 import com.lindada.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;

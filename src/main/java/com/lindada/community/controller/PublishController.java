@@ -1,9 +1,7 @@
 package com.lindada.community.controller;
 
-import com.lindada.community.Cache.TagCache;
+import com.lindada.community.cache.TagCache;
 import com.lindada.community.dto.QuestionDTO;
-import com.lindada.community.mapper.QuestionMapper;
-import com.lindada.community.mapper.UserMapper;
 import com.lindada.community.model.Question;
 import com.lindada.community.model.User;
 import com.lindada.community.service.QuestionService;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller

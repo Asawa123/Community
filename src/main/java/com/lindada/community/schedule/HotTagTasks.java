@@ -1,6 +1,6 @@
 package com.lindada.community.schedule;
 
-import com.lindada.community.Cache.HotTagCache;
+import com.lindada.community.cache.HotTagCache;
 import com.lindada.community.mapper.QuestionMapper;
 import com.lindada.community.model.Question;
 import com.lindada.community.model.QuestionExample;

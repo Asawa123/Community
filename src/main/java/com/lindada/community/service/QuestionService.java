@@ -1,5 +1,6 @@
 package com.lindada.community.service;
 
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.lindada.community.dto.PaginationDTO;
 import com.lindada.community.dto.QuestionDTO;
 import com.lindada.community.dto.QuestionQueryDTO;
@@ -30,7 +31,6 @@ public class QuestionService {
     private UserMapper userMapper;
     @Autowired
     private QuestionExtMapper questionExtMapper;
-
 
     public PaginationDTO list(String search,String tag,Integer page, Integer size) {
         if(StringUtils.isNotBlank(search)){
@@ -63,7 +63,7 @@ public class QuestionService {
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for(Question question:questions){
-            User user = userMapper.selectByPrimaryKey(question.getId());
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             questionDTO.setUser(user);
@@ -98,7 +98,7 @@ public class QuestionService {
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for(Question question:questions){
-            User user = userMapper.selectByPrimaryKey(question.getId());
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             questionDTO.setUser(user);

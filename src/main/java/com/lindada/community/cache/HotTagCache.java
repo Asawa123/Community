@@ -1,4 +1,4 @@
-package com.lindada.community.Cache;
+package com.lindada.community.cache;
 
 import com.lindada.community.dto.HotTagDTO;
 import lombok.Data;

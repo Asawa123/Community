@@ -1,4 +1,4 @@
-package com.lindada.community.Cache;
+package com.lindada.community.cache;
 
 import com.lindada.community.dto.TagDTO;
 import org.apache.commons.lang3.StringUtils;
